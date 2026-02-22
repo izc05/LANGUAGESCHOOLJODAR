@@ -185,6 +185,16 @@ nav a:hover::after {
   width: 100%;
 }
 
+
+nav a.active {
+  color: var(--vintage-gold);
+  font-weight: 700;
+}
+
+nav a.active::after {
+  width: 100%;
+}
+
 /* ===== BOTONES VINTAGE ===== */
 .btn {
   display: inline-block;

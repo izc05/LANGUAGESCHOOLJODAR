@@ -158,10 +158,7 @@ function initActiveNav() {
     if (link.getAttribute('data-page') === currentPage) {
       link.style.color = 'var(--vintage-gold)';
       link.style.fontWeight = '700';
-      const afterWidth = link.querySelector('::after');
-      if (afterWidth) {
-        afterWidth.style.width = '100%';
-      }
+      link.classList.add('active');
     }
   });
 }
