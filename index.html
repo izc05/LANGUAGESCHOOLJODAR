@@ -20,28 +20,40 @@
 <header>
   <div class="wrap topbar">
     <a class="logo" href="index.html" aria-label="Language School">
-      <svg viewBox="0 0 520 180" xmlns="http://www.w3.org/2000/svg" role="img">
+      <svg viewBox="0 0 560 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Language School logo elegante">
         <defs>
           <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#8b5cf6"/>
-            <stop offset="1" stop-color="#6d28d9"/>
+            <stop offset="0" stop-color="#a78bfa"/>
+            <stop offset="0.55" stop-color="#6366f1"/>
+            <stop offset="1" stop-color="#06b6d4"/>
           </linearGradient>
-          <filter id="shadow">
-            <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#4c1d95" flood-opacity="0.3"/>
+          <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fef3c7"/>
+            <stop offset="1" stop-color="#f59e0b"/>
+          </linearGradient>
+          <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+            <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#312e81" flood-opacity="0.35"/>
+          </filter>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
           </filter>
         </defs>
-        <g transform="translate(10,10)" filter="url(#shadow)">
-          <circle cx="70" cy="70" r="52" fill="none" stroke="url(#g)" stroke-width="10"/>
-          <path d="M24 70c16-18 76-18 92 0" fill="none" stroke="#6d28d9" stroke-width="6" opacity=".9"/>
-          <path d="M24 70c16 18 76 18 92 0" fill="none" stroke="#6d28d9" stroke-width="6" opacity=".55"/>
-          <path d="M70 18c-18 16-18 76 0 104" fill="none" stroke="#6d28d9" stroke-width="6" opacity=".7"/>
-          <path d="M70 18c18 16 18 76 0 104" fill="none" stroke="#6d28d9" stroke-width="6" opacity=".35"/>
-          <path d="M98 32l26-10-10 26-9-7-21 7 14-16z" fill="url(#g)"/>
-          <path d="M110 24c18 18 26 40 24 62" fill="none" stroke="#6d28d9" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+
+        <g transform="translate(12,15)" filter="url(#shadow)">
+          <rect x="8" y="14" width="132" height="132" rx="34" fill="rgba(255,255,255,.7)" stroke="url(#g)" stroke-width="4"/>
+          <path d="M34 104V48h22l18 18 18-18h22v56h-18V74l-22 21-22-21v30z" fill="url(#g)"/>
+          <path d="M34 45h80" stroke="url(#gold)" stroke-width="4" stroke-linecap="round" opacity=".9" filter="url(#glow)"/>
+          <circle cx="113" cy="45" r="5" fill="url(#gold)" filter="url(#glow)"/>
         </g>
-        <g transform="translate(160,30)">
-          <text x="0" y="40" font-family="Georgia, serif" font-size="34" letter-spacing="6" fill="#4c1d95">LANGUAGE</text>
-          <text x="0" y="115" font-family="Palatino, Georgia, serif" font-size="92" fill="url(#g)" style="font-weight:700;">School</text>
+
+        <g transform="translate(170,34)">
+          <text x="0" y="36" font-family="Inter, Segoe UI, sans-serif" font-size="28" letter-spacing="8" fill="#312e81" opacity="0.92">LANGUAGE</text>
+          <text x="0" y="116" font-family="Cormorant Garamond, Georgia, serif" font-size="96" fill="url(#g)" style="font-weight:700; letter-spacing:1px;" filter="url(#glow)">School</text>
+          <path d="M0 128h280" stroke="url(#gold)" stroke-width="3" stroke-linecap="round" opacity=".75"/>
         </g>
       </svg>
     </a>
@@ -137,7 +149,7 @@
     <div class="videoCard">
       <div class="videoEmbed">
         <iframe
-          src="https://www.youtube.com/embed/HnM4Qv7f4-k"
+          src="https://www.youtube.com/embed/2NWe2f5x6w8"
           title="Video de presentación de clases de inglés"
           loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -152,6 +164,33 @@
           <li>Trabajo práctico para niños, teens y adultos en grupos reducidos.</li>
         </ul>
       </div>
+    </div>
+
+    <div class="videoPlaylist" style="margin-top:1rem;">
+      <article class="feature reveal">
+        <h3>Listening real en contexto</h3>
+        <div class="videoEmbed" style="margin-top:.6rem;">
+          <iframe
+            src="https://www.youtube.com/embed/8jM3ewt7f_E"
+            title="Listening y vocabulario en inglés real"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </article>
+      <article class="feature reveal">
+        <h3>Pronunciación clara y elegante</h3>
+        <div class="videoEmbed" style="margin-top:.6rem;">
+          <iframe
+            src="https://www.youtube.com/embed/-2C2sQY6wzU"
+            title="Práctica de pronunciación en inglés"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -259,6 +298,23 @@
         <span class="pill">Caso 3 · Objetivo B2</span>
         <h3>Plan semanal por destrezas</h3>
         <p>Simulacros guiados + feedback de writing/speaking. En 3 meses: menos errores repetidos y mayor control del tiempo de examen.</p>
+      </article>
+    </div>
+
+    <div class="postsGrid" style="margin-top:1rem;">
+      <article class="card postCard reveal">
+        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1400&q=80" alt="Clase real con profesora guiando speaking" loading="lazy">
+        <div class="postBody">
+          <h3>Ejemplo real: role-play de entrevista</h3>
+          <p>Simulamos entrevistas laborales en inglés con feedback inmediato de expresiones, fluidez y naturalidad.</p>
+        </div>
+      </article>
+      <article class="card postCard reveal">
+        <img src="https://images.unsplash.com/photo-1516534775068-ba3e7458af70?auto=format&fit=crop&w=1400&q=80" alt="Alumnos revisando escritura en una academia moderna" loading="lazy">
+        <div class="postBody">
+          <h3>Ejemplo real: writing de examen</h3>
+          <p>Transformamos un writing básico en una versión B2 con conectores, estructura sólida y corrección personalizada.</p>
+        </div>
       </article>
     </div>
   </section>
