@@ -185,3 +185,48 @@ footer a { color: var(--primary-strong); text-decoration: none; }
   .logo svg { height: 58px; }
   nav { gap: .7rem; }
 }
+
+.testimonialsGrid .testimonial p {
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: .7rem;
+}
+
+.faqList {
+  display: grid;
+  gap: .75rem;
+}
+
+.faqList details {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--border);
+  border-radius: .9rem;
+  padding: .85rem 1rem;
+  box-shadow: var(--shadow);
+}
+
+.faqList summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #151b33;
+  list-style: none;
+}
+
+.faqList summary::-webkit-details-marker {
+  display: none;
+}
+
+.faqList summary::after {
+  content: '+';
+  float: right;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.faqList details[open] summary::after {
+  content: '−';
+}
+
+.faqList details p {
+  margin-top: .6rem;
+}
