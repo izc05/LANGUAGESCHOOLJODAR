@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initActiveNav();
   initReveal();
   initSmoothScroll();
+  initLightOrb();
 });
 
 function initActiveNav() {
@@ -42,4 +43,24 @@ function initSmoothScroll() {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+}
+
+function initLightOrb() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const orb = document.createElement('div');
+  orb.className = 'light-orb';
+  document.body.appendChild(orb);
+
+  let x = window.innerWidth / 2;
+  let y = window.innerHeight / 2;
+
+  const moveOrb = (event) => {
+    x = event.clientX;
+    y = event.clientY;
+    orb.style.left = `${x}px`;
+    orb.style.top = `${y}px`;
+  };
+
+  window.addEventListener('mousemove', moveOrb, { passive: true });
 }
