@@ -35,9 +35,8 @@ vintage-academy/
 ├── academia.html       # Metodología y cursos
 ├── precios.html        # Planes y tarifas
 ├── contacto.html       # Formulario y ubicación
-├── assets/
-│   ├── style.css       # Estilos CSS vintage con animaciones
-│   └── app.js          # JavaScript con efectos parallax y animaciones
+├── style.css          # Estilos CSS vintage con animaciones
+├── app.js             # JavaScript con efectos parallax y animaciones
 └── README.md           # Este archivo
 ```
 
@@ -97,7 +96,7 @@ git push -u origin main
 ## 🎨 Personalización
 
 ### Cambiar Colores
-Edita las variables CSS en `assets/style.css`:
+Edita las variables CSS en `style.css`:
 ```css
 :root {
   --vintage-cream: #F5E6D3;    /* Color de fondo principal */

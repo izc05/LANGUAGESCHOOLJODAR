@@ -4,7 +4,7 @@
 
 ### 1. Cambiar Colores (5 minutos)
 
-Abre `assets/style.css` y busca las líneas 8-18:
+Abre `style.css` y busca las líneas 8-18:
 
 ```css
 :root {
