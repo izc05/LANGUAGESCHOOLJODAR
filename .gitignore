@@ -3,5 +3,7 @@ dist/
 android/
 .env
 .env.local
+.env.mini-pc
+deploy/mini-pc/secrets/
 .DS_Store
 npm-debug.log*

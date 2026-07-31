@@ -1,11 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Activos QR">
-  <rect width="512" height="512" rx="96" fill="#df4f45"/>
-  <path fill="#fff" d="M256 92 104 206v205c0 11 9 20 20 20h264c11 0 20-9 20-20V206L256 92Z"/>
-  <path fill="#df4f45" d="M148 146V92h70v2l-70 52Z"/>
-  <rect x="156" y="242" width="56" height="56" rx="10" fill="#df4f45"/>
-  <rect x="228" y="242" width="56" height="56" rx="10" fill="#df4f45"/>
-  <rect x="300" y="242" width="56" height="56" rx="10" fill="#df4f45"/>
-  <rect x="156" y="314" width="56" height="56" rx="10" fill="#df4f45"/>
-  <rect x="300" y="314" width="56" height="56" rx="10" fill="#df4f45"/>
-  <rect x="228" y="314" width="56" height="56" rx="10" fill="#2a3140"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="IsiVoltPro Activos">
+  <defs>
+    <linearGradient id="bg" x1="64" y1="48" x2="448" y2="464" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="0.48" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#7C3AED"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#071827" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0F2742"/>
+  <rect x="56" y="56" width="400" height="400" rx="116" fill="url(#bg)" filter="url(#shadow)"/>
+  <path d="M282 104 150 286h101l-38 122 149-202H258l24-102Z" fill="#fff"/>
+  <circle cx="370" cy="370" r="42" fill="#A7F3D0"/>
+  <path d="M351 370h38M370 351v38" stroke="#0F2742" stroke-width="14" stroke-linecap="round"/>
 </svg>

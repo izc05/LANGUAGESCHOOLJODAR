@@ -1,0 +1,20 @@
+services:
+  isivoltpro-activos-web:
+    container_name: isivoltpro-activos-web
+    build:
+      context: .
+      dockerfile: deploy/mini-pc/Dockerfile
+      args:
+        VITE_BACKEND_MODE: self-hosted
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:?Define VITE_SUPABASE_URL en .env.mini-pc}
+        VITE_SUPABASE_PUBLISHABLE_KEY: ${VITE_SUPABASE_PUBLISHABLE_KEY:?Define VITE_SUPABASE_PUBLISHABLE_KEY en .env.mini-pc}
+        VITE_ENABLE_DEMO_SIGNUP: "false"
+    restart: unless-stopped
+    ports:
+      - "${ACTIVOS_WEB_BIND:-127.0.0.1}:${ACTIVOS_WEB_PORT:-5175}:80"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s

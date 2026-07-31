@@ -8,11 +8,11 @@ import { DashboardCard, DocumentCard, EmptyState, QRScanButton, QuickActionButto
 import { useTenant } from '../hooks/useTenant';
 import { dashboardMetrics } from '../services/tenantService';
 import { formatDateTime } from '../utils/dateUtils';
-import homeserveLogo from '../assets/homeserve/homeserve-logo-rojo-horizontal.png';
-import homeserveAire from '../assets/homeserve/homeserve-aire-acondicionado.jpg';
-import homeserveElectro from '../assets/homeserve/homeserve-electrodomesticos.jpg';
-import homeserveLuzAgua from '../assets/homeserve/homeserve-luz-agua.jpg';
-import homeserveZonaCliente from '../assets/homeserve/homeserve-zona-cliente.jpg';
+import isivoltproLogo from '../assets/brand/isivoltpro-activos-logo.svg';
+import serviceAire from '../assets/homeserve/homeserve-aire-acondicionado.jpg';
+import serviceEquipment from '../assets/homeserve/homeserve-electrodomesticos.jpg';
+import serviceUtilities from '../assets/homeserve/homeserve-luz-agua.jpg';
+import serviceOverview from '../assets/homeserve/homeserve-zona-cliente.jpg';
 
 export default function Dashboard() {
   const {
@@ -48,9 +48,9 @@ export default function Dashboard() {
 
   const data = metrics || { totalInstalaciones: 0, totalActivos: 0, pendientesRevision: 0, incidenciasAbiertas: 0, documentosRecientes: [] };
   const presentationImages = [
-    { src: homeserveAire, title: 'Climatizacion', text: 'Mantenimiento y revision tecnica' },
-    { src: homeserveElectro, title: 'Electrodomesticos', text: 'Averias y seguimiento de trabajos' },
-    { src: homeserveLuzAgua, title: 'Luz y agua', text: 'Servicios conectados a activos QR' }
+    { src: serviceAire, title: 'Climatización', text: 'Mantenimiento, revisión y trazabilidad técnica' },
+    { src: serviceEquipment, title: 'Equipos y activos', text: 'Inventario, averías y seguimiento de trabajos' },
+    { src: serviceUtilities, title: 'Instalaciones', text: 'Electricidad, agua y servicios conectados por QR' }
   ];
 
   function selectClient(tenantId) {
@@ -68,31 +68,31 @@ export default function Dashboard() {
       <section className="service-hero">
         <div>
           <div className="presentation-brand-lockup">
-            <img src={homeserveLogo} alt="HomeServe" />
-            <span>Creado por IsiVoltPro</span>
+            <img src={isivoltproLogo} alt="IsiVoltPro Activos" />
+            <span>Ecosistema técnico de mantenimiento</span>
           </div>
-          <span className="section-eyebrow">Presentacion plataforma QR</span>
-          <h1>HomeServe · Gestion QR de activos e instalaciones</h1>
-          <p>Una experiencia de cliente y servicio tecnico para registrar activos, consultar documentacion y seguir cada reparacion desde el movil.</p>
+          <span className="section-eyebrow">Panel operativo</span>
+          <h1>IsiVoltPro Activos · Gestión técnica QR/NFC</h1>
+          <p>Controla clientes, instalaciones, activos, documentación, mantenimiento y órdenes de trabajo desde una única plataforma.</p>
           <div className="quick-actions">
             <QRScanButton />
             <QuickActionButton to="/incidencias" icon={AlertTriangle}>Crear incidencia</QuickActionButton>
-            <QuickActionButton to="/activos" icon={Wrench}>Mis activos</QuickActionButton>
+            <QuickActionButton to="/activos" icon={Wrench}>Ver activos</QuickActionButton>
           </div>
         </div>
         <div className="service-hero-panel presentation-hero-panel">
-          <img src={homeserveZonaCliente} alt="Zona cliente HomeServe" />
-          <strong>Resumen de servicio</strong>
+          <img src={serviceOverview} alt="Gestión de servicios técnicos" />
+          <strong>Resumen de la instalación</strong>
           <div className="service-hero-stat"><span>Activos registrados</span><b>{data.totalActivos}</b></div>
           <div className="service-hero-stat"><span>Incidencias abiertas</span><b>{data.incidenciasAbiertas}</b></div>
-          <div className="service-hero-stat"><span>Revisiones proximas</span><b>{data.pendientesRevision}</b></div>
+          <div className="service-hero-stat"><span>Revisiones próximas</span><b>{data.pendientesRevision}</b></div>
         </div>
       </section>
 
       <section className="presentation-image-strip">
         {presentationImages.map((item) => (
           <article key={item.title}>
-            <img src={item.src} alt={`${item.title} HomeServe`} />
+            <img src={item.src} alt={item.title} />
             <div>
               <strong>{item.title}</strong>
               <span>{item.text}</span>
@@ -105,7 +105,7 @@ export default function Dashboard() {
         <div className="section-title compact-title">
           <div>
             <h2>1. Clientes</h2>
-            <p>Un cliente puede tener varias instalaciones. El cliente activo filtra todo el inventario.</p>
+            <p>Un cliente puede tener varias instalaciones. El cliente activo filtra todo el entorno de trabajo.</p>
           </div>
           <Link className="secondary-button" to="/clientes"><Building2 size={16} /> Gestionar clientes</Link>
         </div>
@@ -129,7 +129,7 @@ export default function Dashboard() {
         <div className="section-title compact-title">
           <div>
             <h2>2. Instalaciones de {activeTenant?.nombre || 'cliente activo'}</h2>
-            <p>Selecciona una instalación para trabajar sobre sus ubicaciones, activos, OT, documentos y fotos.</p>
+            <p>Selecciona una instalación para trabajar sobre sus ubicaciones, activos, OT, documentos y fotografías.</p>
           </div>
           <Link className="primary-button" to="/instalaciones"><Plus size={16} /> Nueva instalación</Link>
         </div>
@@ -151,33 +151,33 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <PageHeader title="Estado de la instalacion activa" subtitle={activeInstallation ? `Estado operativo de ${activeInstallation.nombre}.` : 'Selecciona una instalacion para ver sus datos.'} />
+      <PageHeader title="Estado de la instalación activa" subtitle={activeInstallation ? `Estado operativo de ${activeInstallation.nombre}.` : 'Selecciona una instalación para ver sus datos.'} />
       {activeInstallation && <p className="active-filter-note">Filtro activo: {activeTenant?.nombre} · {activeInstallation.nombre}</p>}
       <div className="grid metrics service-summary-grid">
-        <MetricCard label={activeInstallation ? 'Instalacion activa' : 'Instalaciones'} value={data.totalInstalaciones} />
+        <MetricCard label={activeInstallation ? 'Instalación activa' : 'Instalaciones'} value={data.totalInstalaciones} />
         <MetricCard label="Activos" value={data.totalActivos} />
-        <MetricCard label="Pendientes revision" value={data.pendientesRevision} tone="warn" />
+        <MetricCard label="Pendientes de revisión" value={data.pendientesRevision} tone="warn" />
         <MetricCard label="Incidencias abiertas" value={data.incidenciasAbiertas} tone="danger" />
       </div>
 
       <SectionHeader
         eyebrow="Accesos principales"
-        title="Zona cliente / empresa"
-        description="Operaciones frecuentes para activos, reparaciones, instalaciones y documentacion tecnica."
+        title="Centro de operaciones"
+        description="Las herramientas habituales para inventario, reparaciones, instalaciones y documentación técnica."
       />
       <section className="service-card-grid">
         <DashboardCard
           icon={QrCode}
           title="Activos QR"
-          description="Ver equipos registrados, escanear QR/NFC y anadir nuevo activo."
+          description="Consulta equipos registrados, escanea QR/NFC y añade nuevos activos."
           meta={`${data.totalActivos} activos`}
           to="/activos"
           actionLabel="Abrir activos"
         />
         <DashboardCard
           icon={AlertTriangle}
-          title="Incidencias / Reparaciones"
-          description="Registra avisos en segundos y consulta el seguimiento del estado."
+          title="Incidencias y reparaciones"
+          description="Registra avisos en segundos y consulta su evolución hasta el cierre."
           meta={`${data.incidenciasAbiertas} abiertas`}
           to="/incidencias"
           actionLabel="Ver incidencias"
@@ -186,7 +186,7 @@ export default function Dashboard() {
         <DashboardCard
           icon={Home}
           title="Instalaciones"
-          description="Consulta instalaciones, ubicaciones, documentacion e historial de revisiones."
+          description="Consulta ubicaciones, documentación, contactos e historial técnico."
           meta={`${data.totalInstalaciones} instalaciones`}
           to="/instalaciones"
           actionLabel="Ver instalaciones"
@@ -194,16 +194,16 @@ export default function Dashboard() {
         <DashboardCard
           icon={CalendarClock}
           title="Mantenimiento preventivo"
-          description="Proximas revisiones, checklist pendientes y avisos importantes."
+          description="Próximas revisiones, checklist pendientes y avisos importantes."
           meta={`${data.pendientesRevision} pendientes`}
           to="/mantenimiento"
-          actionLabel="Planificar revision"
+          actionLabel="Planificar revisión"
           tone="warn"
         />
         <DashboardCard
           icon={FolderOpen}
-          title="Zona cliente / Empresa"
-          description="Datos de instalacion, contactos, documentos y contratos asociados."
+          title="Documentación técnica"
+          description="Manuales, contratos, informes, certificados y archivos asociados."
           meta={activeTenant?.nombre || 'Cliente activo'}
           to="/documentos"
           actionLabel="Abrir documentos"
@@ -213,7 +213,7 @@ export default function Dashboard() {
       <SectionHeader
         eyebrow="Seguimiento"
         title="Atajos de trabajo"
-        description="Accede rapido a las acciones que un tecnico o cliente necesita durante una visita."
+        description="Accede rápidamente a las acciones que un técnico o coordinador necesita durante una intervención."
       />
       <section className="service-action-grid">
         <QuickActionButton to="/scanner" icon={QrCode} variant="primary">Escanear QR</QuickActionButton>
@@ -240,8 +240,8 @@ export default function Dashboard() {
         <div style={{ marginTop: 16 }}>
           <EmptyState
             title="Sin actividad documental reciente"
-            description="Cuando subas manuales, contratos o informes apareceran aqui para consulta rapida."
-            action={<DocumentCard title="Documentacion tecnica" description="Subir o consultar archivos asociados" />}
+            description="Cuando subas manuales, contratos o informes aparecerán aquí para consulta rápida."
+            action={<DocumentCard title="Documentación técnica" description="Subir o consultar archivos asociados" />}
           />
         </div>
       )}

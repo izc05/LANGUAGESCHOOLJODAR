@@ -1,0 +1,43 @@
+name: Validar aplicación
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build self-hosted frontend
+        run: npm run build
+        env:
+          VITE_BACKEND_MODE: self-hosted
+          VITE_SUPABASE_URL: https://api.activos.isivoltpro.com
+          VITE_SUPABASE_PUBLISHABLE_KEY: ci-placeholder-publishable-key
+          VITE_ENABLE_DEMO_SIGNUP: 'false'
+
+      - name: Validate deployment scripts
+        run: |
+          bash -n deploy/mini-pc/apply-database.sh
+          bash -n deploy/mini-pc/create-local-admin.sh
+          docker compose --env-file .env.mini-pc.example -f docker-compose.mini-pc.yml config >/dev/null
