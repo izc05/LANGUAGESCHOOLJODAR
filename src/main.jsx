@@ -11,6 +11,7 @@ import './styles/technicianWorkOrderDetail.css';
 import './styles/finalReview.css';
 import './styles/activeInstallation.css';
 import './styles/workContext.css';
+import './styles/brandRefresh.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
