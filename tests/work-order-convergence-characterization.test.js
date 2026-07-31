@@ -149,5 +149,5 @@ test('el contrato OT-00 documenta explícitamente la futura adaptación sin apli
   assert.match(contract, /`FINALIZADA_TECNICO`/);
   assert.match(contract, /No se modificará información masivamente sin backup/i);
   assert.match(mapping, /PENDIENTE_MATERIAL.*BLOQUEADA.*MATERIAL/is);
-  assert.match(mapping, /HomeServe y Activos no comparten/i);
+  assert.match(mapping, /Conectar Activos al proyecto Supabase de HomeServe/i);
 });
