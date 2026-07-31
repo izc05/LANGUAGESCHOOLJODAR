@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Link, Navigate, useLocation } from 'react-router-dom';
-import { Info, QrCode, ShieldCheck, Wrench } from 'lucide-react';
+import { Info, QrCode, Server, ShieldCheck, Wrench } from 'lucide-react';
 import FormField from '../components/Forms/FormField';
 import { resetPassword, signIn } from '../services/authService';
+import { backendConfiguration } from '../services/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
 import isivoltproLogo from '../assets/brand/isivoltpro-activos-logo.svg';
-
-const demoAdminEmail = 'admin.demo@example.test';
 
 export default function Login() {
   const { isAuthenticated } = useAuth();
@@ -20,15 +19,25 @@ export default function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
     setMessage('');
+
+    if (!backendConfiguration.configured) {
+      setMessage('El backend local todavía no está configurado. Completa el despliegue del mini PC antes de iniciar sesión.');
+      return;
+    }
+
     const { error } = await signIn(email.trim(), password);
-    if (error) setMessage(error.message === 'Invalid login credentials' ? 'El correo o la contraseña no son correctos.' : error.message);
+    if (error) {
+      setMessage(error.message === 'Invalid login credentials'
+        ? 'El correo o la contraseña no son correctos.'
+        : error.message);
+    }
   }
 
   async function handleReset() {
     const normalizedEmail = email.trim();
     if (!normalizedEmail) return setMessage('Introduce tu correo para recuperar la contraseña.');
-    if (normalizedEmail.endsWith('.test')) {
-      return setMessage('Las cuentas demo .test no reciben correos. Solicita al administrador que restablezca la contraseña.');
+    if (!backendConfiguration.configured) {
+      return setMessage('El backend local todavía no está configurado.');
     }
     const { error } = await resetPassword(normalizedEmail);
     setMessage(error ? error.message : 'Revisa tu correo para continuar.');
@@ -67,14 +76,18 @@ export default function Login() {
           <img className="login-panel-logo" src={isivoltproLogo} alt="IsiVoltPro Activos" />
           <span className="section-eyebrow">Acceso profesional</span>
           <h2>Bienvenido de nuevo</h2>
-          <p className="muted">Entra con el correo y la contraseña de tu cuenta. Los técnicos nuevos necesitan una invitación del administrador.</p>
+          <p className="muted">Entra con el correo y la contraseña creados en el servidor local. Los técnicos nuevos necesitan una invitación del administrador.</p>
         </div>
 
-        <div className="demo-access-note">
-          <Info size={18} />
+        <div className={`demo-access-note ${backendConfiguration.configured ? '' : 'backend-warning'}`}>
+          {backendConfiguration.configured ? <Server size={18} /> : <Info size={18} />}
           <div>
-            <strong>Cuenta administradora demo</strong>
-            <span>{demoAdminEmail}</span>
+            <strong>{backendConfiguration.configured ? 'Servidor local configurado' : 'Instalación local pendiente'}</strong>
+            <span>
+              {backendConfiguration.configured
+                ? 'IsiVoltPro Activos está preparado para usar el backend del mini PC.'
+                : 'El correo administrador se definirá al instalar el backend en el mini PC.'}
+            </span>
           </div>
         </div>
 
