@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Deploy IsiVoltPro Activos Preview
 
 on:
   push:
@@ -19,8 +19,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout visual preview
         uses: actions/checkout@v4
+        with:
+          # Vista previa temporal: no fusiona la PR ni cambia el código de main.
+          ref: agent/isivoltpro-brand-refresh
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -29,12 +32,16 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build Vite app
+      - name: Run tests
+        run: npm test
+
+      - name: Build GitHub Pages preview
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
+          VITE_BACKEND_MODE: 'preview-no-backend'
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -44,6 +51,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
