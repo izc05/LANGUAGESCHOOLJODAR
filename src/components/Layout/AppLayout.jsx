@@ -8,7 +8,7 @@ import OfflineBanner from './OfflineBanner';
 import InstallAppButton from './InstallAppButton';
 import NotificationBell from './NotificationBell';
 import WorkContextSelector from './WorkContextSelector';
-import homeserveLogo from '../../assets/homeserve/homeserve-logo-rojo-horizontal.png';
+import isivoltproLogo from '../../assets/brand/isivoltpro-activos-logo.svg';
 import GlobalSearch from '../Search/GlobalSearch';
 
 const mainNavItems = [
@@ -23,7 +23,7 @@ const inventoryNavItems = [
   { to: '/activos', label: 'Activos', icon: Wrench, permission: 'inventory' },
   { to: '/documentos', label: 'Documentos', icon: FileText, permission: 'inventory' },
   { to: '/fotos', label: 'Fotos', icon: Image, permission: 'inventory' },
-  { to: '/videos', label: 'Videos', icon: Video, permission: 'inventory' },
+  { to: '/videos', label: 'Vídeos', icon: Video, permission: 'inventory' },
   { to: '/qr', label: 'Generador QR', icon: QrCode, permission: 'qr' }
 ];
 
@@ -97,8 +97,8 @@ const ocaNavItems = [
 
 const userNavItems = [
   { to: '/usuarios-panel', label: 'Panel usuarios', icon: Users, permission: 'users' },
-  { to: '/usuarios', label: 'Gestion usuarios', icon: UserIcon, permission: 'users' },
-  { to: '/auditoria', label: 'Auditoria', icon: ShieldCheck, permission: 'audit' },
+  { to: '/usuarios', label: 'Gestión de usuarios', icon: UserIcon, permission: 'users' },
+  { to: '/auditoria', label: 'Auditoría', icon: ShieldCheck, permission: 'audit' },
   { to: '/ajustes', label: 'Ajustes', mobileLabel: 'Cuenta', icon: Settings, permission: 'all' }
 ];
 
@@ -205,28 +205,28 @@ export default function AppLayout() {
     <div className={`app-shell ${sidebarHidden ? 'sidebar-hidden' : ''} ${useTechnicianMobileShell ? 'technician-mobile-shell' : ''}`}>
       <aside className="sidebar">
         <div className="brand sidebar-brand">
-          <div className="brand-lockup">
-            <img className="brand-logo-img" src={homeserveLogo} alt="HomeServe" />
+          <NavLink className="brand-lockup" to="/" aria-label="Ir al inicio de IsiVoltPro Activos">
+            <img className="brand-logo-img" src={isivoltproLogo} alt="IsiVoltPro Activos" />
             <div>
-              <strong>HomeServe</strong>
-              <small>Activos QR por IsiVoltPro</small>
+              <strong>IsiVoltPro Activos</strong>
+              <small>Gestión técnica QR/NFC</small>
             </div>
-          </div>
-          <button className="sidebar-icon-button" type="button" onClick={() => setSidebarHidden(true)} title="Ocultar menu lateral" aria-label="Ocultar menu lateral">
+          </NavLink>
+          <button className="sidebar-icon-button" type="button" onClick={() => setSidebarHidden(true)} title="Ocultar menú lateral" aria-label="Ocultar menú lateral">
             <PanelLeftClose size={18} />
           </button>
         </div>
-        <nav className="nav-list">
+        <nav className="nav-list" aria-label="Navegación principal">
           {desktopNavItems ? (
             desktopNavItems.map((item) => <NavItem key={item.to} item={item} />)
           ) : (
             <>
               {visibleMainNavItems.map((item) => <NavItem key={item.to} item={item} />)}
-              <NavGroup title="Bloque Inventario" items={visibleInventoryNavItems} open={openGroups.inventory} active={groupActive(visibleInventoryNavItems)} onToggle={() => toggleGroup('inventory')} />
-              <NavGroup title="Bloque Mantenimiento" items={visibleMaintenanceNavItems} open={openGroups.maintenance} active={groupActive(visibleMaintenanceNavItems)} onToggle={() => toggleGroup('maintenance')} />
-              <NavGroup title="Bloque OCA" items={visibleOcaNavItems} open={openGroups.oca} active={groupActive(visibleOcaNavItems)} onToggle={() => toggleGroup('oca')} />
-              <NavGroup title="Bloque OT" items={visibleWorkOrderNavItems} open={openGroups.workorders} active={groupActive(visibleWorkOrderNavItems)} onToggle={() => toggleGroup('workorders')} />
-              <NavGroup title="Bloque Usuarios" items={visibleUserNavItems} open={openGroups.users} active={groupActive(visibleUserNavItems)} onToggle={() => toggleGroup('users')} />
+              <NavGroup title="Inventario" items={visibleInventoryNavItems} open={openGroups.inventory} active={groupActive(visibleInventoryNavItems)} onToggle={() => toggleGroup('inventory')} />
+              <NavGroup title="Mantenimiento" items={visibleMaintenanceNavItems} open={openGroups.maintenance} active={groupActive(visibleMaintenanceNavItems)} onToggle={() => toggleGroup('maintenance')} />
+              <NavGroup title="Inspecciones OCA" items={visibleOcaNavItems} open={openGroups.oca} active={groupActive(visibleOcaNavItems)} onToggle={() => toggleGroup('oca')} />
+              <NavGroup title="Órdenes de trabajo" items={visibleWorkOrderNavItems} open={openGroups.workorders} active={groupActive(visibleWorkOrderNavItems)} onToggle={() => toggleGroup('workorders')} />
+              <NavGroup title="Administración" items={visibleUserNavItems} open={openGroups.users} active={groupActive(visibleUserNavItems)} onToggle={() => toggleGroup('users')} />
             </>
           )}
         </nav>
@@ -236,7 +236,7 @@ export default function AppLayout() {
         <header className="topbar app-topbar-context">
           {sidebarHidden && (
             <button className="ghost-button topbar-menu-button" type="button" onClick={() => setSidebarHidden(false)}>
-              <PanelLeftOpen size={18} /> Menu
+              <PanelLeftOpen size={18} /> Menú
             </button>
           )}
           {!isGlobalWorkOrderView && !useTechnicianMobileShell && (
@@ -283,13 +283,13 @@ export default function AppLayout() {
           <NotificationBell />
           <InstallAppButton />
           <NavLink className="ghost-button topbar-profile-button" to="/ajustes"><UserCircle size={18} /> Perfil</NavLink>
-          <button className="ghost-button" onClick={signOut}>Cerrar sesion</button>
+          <button className="ghost-button" onClick={signOut}>Cerrar sesión</button>
         </header>
         <OfflineBanner />
         <main className="content"><Outlet /></main>
       </div>
 
-      <nav className="mobile-nav">
+      <nav className="mobile-nav" aria-label="Navegación móvil">
         {mobileNavItems.map((item) => <NavItem key={item.to} item={item} compact />)}
       </nav>
     </div>
