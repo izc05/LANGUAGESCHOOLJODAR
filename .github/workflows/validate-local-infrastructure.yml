@@ -1,0 +1,61 @@
+name: Validar infraestructura local
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.env.example'
+      - '.env.mini-pc.example'
+      - '.gitignore'
+      - 'deploy/mini-pc/**'
+      - 'docker-compose.mini-pc.yml'
+      - 'src/services/supabaseClient.js'
+      - 'tests/self-hosted-backend-contract.test.js'
+      - '.github/workflows/validate-local-infrastructure.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-local-infrastructure-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate shell scripts
+        run: bash -n deploy/mini-pc/*.sh
+
+      - name: Validate Compose configuration
+        shell: bash
+        run: |
+          cp .env.mini-pc.example /tmp/activos.env
+          sed -i 's/PEGA_AQUI_LA_CLAVE_PUBLICA_GENERADA_EN_EL_MINI_PC/test-public-key/' /tmp/activos.env
+          docker compose \
+            --env-file /tmp/activos.env \
+            -f docker-compose.mini-pc.yml \
+            config --quiet
+
+      - name: Validate Caddy configuration
+        run: |
+          docker run --rm \
+            -v "$PWD/deploy/mini-pc/Caddyfile:/etc/caddy/Caddyfile:ro" \
+            caddy:2-alpine \
+            caddy validate --config /etc/caddy/Caddyfile
+
+      - name: Build production image
+        run: |
+          docker build \
+            --file deploy/mini-pc/Dockerfile \
+            --build-arg VITE_BACKEND_MODE=self-hosted \
+            --build-arg VITE_SUPABASE_URL=https://api.example.invalid \
+            --build-arg VITE_SUPABASE_PUBLISHABLE_KEY=test-public-key \
+            --tag isivoltpro-activos:ci \
+            .
