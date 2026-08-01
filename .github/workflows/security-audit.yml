@@ -16,7 +16,7 @@ concurrency:
 jobs:
   dependency-audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,87 +24,14 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22.22.0
           cache: npm
 
-      - name: Install dependencies
+      - name: Install locked dependencies
         run: npm ci
 
-      - name: Trace affected dependency chains
-        run: npm ls tar brace-expansion postcss dompurify react-router react-router-dom || true
+      - name: Audit complete dependency tree
+        run: npm audit --audit-level=low
 
-      - name: Generate npm audit reports
-        shell: bash
-        run: |
-          npm audit --json > npm-audit-all.json || true
-          npm audit --omit=dev --json > npm-audit-production.json || true
-
-      - name: Summarize advisories
-        shell: bash
-        run: |
-          node --input-type=module <<'NODE'
-          import { readFileSync, appendFileSync } from 'node:fs';
-
-          const reports = [
-            ['Todas las dependencias', 'npm-audit-all.json'],
-            ['Solo producción', 'npm-audit-production.json']
-          ];
-
-          const lines = ['# Auditoría de dependencias npm', ''];
-
-          for (const [label, filename] of reports) {
-            const report = JSON.parse(readFileSync(filename, 'utf8'));
-            const counts = report.metadata?.vulnerabilities ?? {};
-            const vulnerabilities = Object.values(report.vulnerabilities ?? {})
-              .sort((a, b) => String(a.severity).localeCompare(String(b.severity)) || String(a.name).localeCompare(String(b.name)));
-
-            lines.push(`## ${label}`);
-            lines.push('');
-            lines.push(`- Total: ${counts.total ?? vulnerabilities.length}`);
-            lines.push(`- Críticas: ${counts.critical ?? 0}`);
-            lines.push(`- Altas: ${counts.high ?? 0}`);
-            lines.push(`- Moderadas: ${counts.moderate ?? 0}`);
-            lines.push(`- Bajas: ${counts.low ?? 0}`);
-            lines.push('');
-
-            if (vulnerabilities.length === 0) {
-              lines.push('Sin vulnerabilidades conocidas.');
-              lines.push('');
-              continue;
-            }
-
-            for (const item of vulnerabilities) {
-              const via = (item.via ?? []).map((entry) => {
-                if (typeof entry === 'string') return entry;
-                const source = entry.source ? `GHSA/npm #${entry.source}` : 'advisory';
-                return `${source}: ${entry.title ?? entry.name ?? 'sin título'} (${entry.range ?? 'rango no indicado'})`;
-              });
-              const fix = item.fixAvailable === true
-                ? 'disponible'
-                : item.fixAvailable && typeof item.fixAvailable === 'object'
-                  ? `${item.fixAvailable.name}@${item.fixAvailable.version}${item.fixAvailable.isSemVerMajor ? ' (major)' : ''}`
-                  : 'no automática';
-
-              lines.push(`### ${item.name} — ${item.severity}`);
-              lines.push('');
-              lines.push(`- Directa: ${item.isDirect ? 'sí' : 'no'}`);
-              lines.push(`- Rango afectado: ${item.range ?? 'no indicado'}`);
-              lines.push(`- Solución: ${fix}`);
-              lines.push(`- Vía: ${via.join(' | ') || 'no indicada'}`);
-              lines.push('');
-            }
-          }
-
-          const summary = `${lines.join('\n')}\n`;
-          console.log(summary);
-          appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
-          NODE
-
-      - name: Upload audit reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: npm-audit-reports
-          path: |
-            npm-audit-all.json
-            npm-audit-production.json
-          retention-days: 14
+      - name: Audit production dependency tree
+        run: npm audit --omit=dev --audit-level=low
