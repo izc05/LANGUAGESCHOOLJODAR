@@ -1,0 +1,45 @@
+name: Regenerar lock de seguridad
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  regenerate-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Regenerate package lock
+        run: npm install --package-lock-only
+
+      - name: Validate clean install
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build application
+        run: npm run build
+
+      - name: Audit all dependencies
+        run: npm audit --audit-level=low
+
+      - name: Upload regenerated lock
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-package-lock
+          path: package-lock.json
+          retention-days: 2
