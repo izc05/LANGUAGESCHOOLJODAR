@@ -1,19 +1,37 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const defaultSupabaseUrl = 'https://ubfbhzovebrmmjpyygnm.supabase.co';
-const defaultSupabaseAnonKey = 'sb_publishable_gVjUFVQRfzLKDMHJ2XU6Wg_lyrsuuac';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim();
+const supabasePublishableKey = (
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+  || import.meta.env.VITE_SUPABASE_ANON_KEY
+)?.trim();
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Supabase usa la configuracion publica por defecto. Para otro entorno define VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY.');
+export const backendConfiguration = {
+  configured: Boolean(supabaseUrl && supabasePublishableKey),
+  url: supabaseUrl || '',
+  mode: import.meta.env.VITE_BACKEND_MODE || 'self-hosted'
+};
+
+if (!backendConfiguration.configured) {
+  console.error(
+    'IsiVoltPro Activos no tiene backend configurado. Define VITE_SUPABASE_URL y VITE_SUPABASE_PUBLISHABLE_KEY durante el despliegue.'
+  );
 }
 
-export const supabase = createClient(supabaseUrl || defaultSupabaseUrl, supabaseAnonKey || defaultSupabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-    storage: window.sessionStorage
+// Estos valores solo permiten construir y previsualizar la interfaz.
+// No apuntan a Supabase Cloud y no permiten autenticar usuarios.
+const unconfiguredUrl = 'http://127.0.0.1:8000';
+const unconfiguredKey = 'isivoltpro-local-backend-not-configured';
+
+export const supabase = createClient(
+  supabaseUrl || unconfiguredUrl,
+  supabasePublishableKey || unconfiguredKey,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      storage: window.sessionStorage
+    }
   }
-});
+);
