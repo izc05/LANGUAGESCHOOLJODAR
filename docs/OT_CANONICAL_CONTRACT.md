@@ -1,7 +1,9 @@
 # Contrato canónico del motor OT de IsiVoltPro
 
-Estado: **vigente para diseño y migración**  
-Ámbito: IsiVoltPro Activos  
+Estado: **vigente para diseño y migración**
+
+Ámbito: IsiVoltPro Activos
+
 Fuentes comparadas: `izc05/isivolpro-activos` y `izc05/homeserve`
 
 ## 1. Propósito
