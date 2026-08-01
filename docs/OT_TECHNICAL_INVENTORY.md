@@ -1,6 +1,7 @@
 # Inventario técnico OT: HomeServe e IsiVoltPro Activos
 
-Estado: OT-00  
+Estado: OT-00
+
 Finalidad: punto de entrada obligatorio antes de adaptar código entre repositorios.
 
 ## 1. Regla de uso
