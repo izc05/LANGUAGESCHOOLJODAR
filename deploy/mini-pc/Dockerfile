@@ -1,0 +1,30 @@
+FROM node:22.22-alpine AS build
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+COPY vendor ./vendor
+RUN npm ci
+
+COPY . .
+
+ARG VITE_BACKEND_MODE=self-hosted
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_PUBLISHABLE_KEY
+ARG VITE_ENABLE_DEMO_SIGNUP=false
+
+ENV VITE_BACKEND_MODE=${VITE_BACKEND_MODE}
+ENV VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+ENV VITE_SUPABASE_PUBLISHABLE_KEY=${VITE_SUPABASE_PUBLISHABLE_KEY}
+ENV VITE_ENABLE_DEMO_SIGNUP=${VITE_ENABLE_DEMO_SIGNUP}
+
+RUN test -n "$VITE_SUPABASE_URL" \
+  && test -n "$VITE_SUPABASE_PUBLISHABLE_KEY" \
+  && npm run build
+
+FROM caddy:2-alpine
+
+COPY deploy/mini-pc/Caddyfile /etc/caddy/Caddyfile
+COPY --from=build /app/dist /srv
+
+EXPOSE 80
