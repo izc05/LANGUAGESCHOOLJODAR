@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Trace affected dependency chains
+        run: npm ls tar brace-expansion postcss dompurify react-router react-router-dom || true
+
       - name: Generate npm audit reports
         shell: bash
         run: |
