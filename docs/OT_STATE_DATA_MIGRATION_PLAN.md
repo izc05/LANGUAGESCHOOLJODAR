@@ -1,6 +1,7 @@
 # Plan reversible de migración de estados y datos OT
 
-Estado: **diseño; no ejecutar todavía**  
+Estado: **diseño; no ejecutar todavía**
+
 Dependencias: contrato OT aprobado, pruebas de caracterización, backup y entorno QA.
 
 ## 1. Objetivo
