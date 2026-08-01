@@ -1,0 +1,15 @@
+{
+  "name": "react-router-dom",
+  "private": true,
+  "version": "8.3.0-isivoltpro.1",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "peerDependencies": {
+    "react": ">=19.2.7",
+    "react-dom": ">=19.2.7",
+    "react-router": "8.3.0"
+  }
+}
