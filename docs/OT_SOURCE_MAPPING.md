@@ -1,6 +1,7 @@
 # Matriz de origen y convergencia OT
 
-Estado: OT-00  
+Estado: OT-00
+
 Objetivo: decidir qué se adopta de HomeServe, qué se conserva de Activos y qué debe reconstruirse mediante un contrato común.
 
 ## 1. Resumen
