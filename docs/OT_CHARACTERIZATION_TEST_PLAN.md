@@ -1,6 +1,7 @@
 # Plan de pruebas de caracterización del motor OT
 
-Estado: OT-00  
+Estado: OT-00
+
 Objetivo: congelar el comportamiento actual antes de introducir TypeScript, Zod, TanStack Query o migraciones de estados.
 
 ## 1. Principio
